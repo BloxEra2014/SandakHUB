@@ -60,7 +60,7 @@ setthreadidentity(7)
 --// Sandak Province Hub
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robojini/Tuturial_UI_Library/main/UI_Template_1"))()
 local plr = game.Players.LocalPlayer
-local Window = Library.CreateLib("SANDAK Province | Сандак Хаб","RJTheme5")
+local Window = Library.CreateLib("SANDAK Province | Сандак Хаб v1.2.5","RJTheme5")
 local Teleport = Window:NewTab("Main | Главная")
 local Tp = Teleport:NewSection("Main | Главная")
 Tp:NewButton("Изменить скорость машины | CAR SPEED","Запускает скрипт на скорость", function()

@@ -58,155 +58,51 @@ end))
 setthreadidentity(7)
 
 --// Sandak Province Hub
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robojini/Tuturial_UI_Library/main/UI_Template_1"))()
 local plr = game.Players.LocalPlayer
-local PlayerGui = plr:WaitForChild("PlayerGui")
-
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "SandakHub"
-ScreenGui.ResetOnSpawn = false
-ScreenGui.Parent = PlayerGui
-
--- Главное окно
-local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 420, 0, 300)
-MainFrame.Position = UDim2.new(0.5, -210, 0.5, -150)
-MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-MainFrame.BorderSizePixel = 0
-MainFrame.Active = true
-MainFrame.Draggable = true -- dragable
-MainFrame.Parent = ScreenGui
-
--- Заголовок
-local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, -100, 0, 40)
-Title.BackgroundTransparency = 1
-Title.Text = "SANDAK Province | Сандак Хаб"
-Title.Font = Enum.Font.SourceSansBold
-Title.TextSize = 20
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextXAlignment = Enum.TextXAlignment.Left
-Title.Position = UDim2.new(0, 10, 0, 0)
-Title.Parent = MainFrame
-
--- Кнопка закрыть
-local CloseBtn = Instance.new("TextButton")
-CloseBtn.Size = UDim2.new(0, 40, 0, 40)
-CloseBtn.Position = UDim2.new(1, -40, 0, 0)
-CloseBtn.Text = "X"
-CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-CloseBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
-CloseBtn.Parent = MainFrame
-
--- Кнопка свернуть
-local MinimizeBtn = Instance.new("TextButton")
-MinimizeBtn.Size = UDim2.new(0, 40, 0, 40)
-MinimizeBtn.Position = UDim2.new(1, -80, 0, 0)
-MinimizeBtn.Text = "-"
-MinimizeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-MinimizeBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-MinimizeBtn.Parent = MainFrame
-
--- Скроллинг для кнопок
-local Scroll = Instance.new("ScrollingFrame")
-Scroll.Size = UDim2.new(1, -20, 1, -60)
-Scroll.Position = UDim2.new(0, 10, 0, 50)
-Scroll.CanvasSize = UDim2.new(0,0,2,0) -- подгонится автоматом
-Scroll.ScrollBarThickness = 6
-Scroll.BackgroundTransparency = 1
-Scroll.Parent = MainFrame
-
--- UIList для аккуратного списка
-local UIList = Instance.new("UIListLayout")
-UIList.Padding = UDim.new(0, 5)
-UIList.FillDirection = Enum.FillDirection.Vertical
-UIList.Parent = Scroll
-
--- Круглая кнопка (свёрнутое меню)
-local MiniBtn = Instance.new("TextButton")
-MiniBtn.Size = UDim2.new(0, 50, 0, 50)
-MiniBtn.Position = UDim2.new(0, 20, 0.5, -25)
-MiniBtn.Text = "≡"
-MiniBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-MiniBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
-MiniBtn.Visible = false
-MiniBtn.Parent = ScreenGui
-
--- Логика кнопок
-CloseBtn.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
-end)
-
-MinimizeBtn.MouseButton1Click:Connect(function()
-    MainFrame.Visible = false
-    MiniBtn.Visible = true
-end)
-
-MiniBtn.MouseButton1Click:Connect(function()
-    MainFrame.Visible = true
-    MiniBtn.Visible = false
-end)
-
--- Функция для кнопок
-local function NewButton(name, desc, callback)
-    local Btn = Instance.new("TextButton")
-    Btn.Size = UDim2.new(1, -10, 0, 40)
-    Btn.Text = name .. " | " .. desc
-    Btn.Font = Enum.Font.SourceSans
-    Btn.TextSize = 18
-    Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    Btn.Parent = Scroll
-    Btn.MouseButton1Click:Connect(callback)
-end
-
--- Телепорты
-NewButton("Изменить скорость машины","Запускает скрипт на скорость", function()
+local Window = Library.CreateLib("SANDAK Province | Сандак Хаб","RJTheme5")
+local Teleport = Window:NewTab("Main | Главная")
+local Tp = Teleport:NewSection("Main | Главная")
+Tp:NewButton("Изменить скорость машины | CAR SPEED","Запускает скрипт на скорость", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Documantation12/Universal-Vehicle-Script/main/Main.lua"))()
 end)
-
-NewButton("Больница","Телепортирует в больницу", function()
-    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-3394.24463, 5.05, 263.195526)
-end)
-
-NewButton("Церковь","Телепортирует в церковь", function()
-    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-2659.02637, 2.55, -739.766541)
-end)
-
-NewButton("МВД","Телепортирует в МВД", function()
-    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-2852.2749, 18.6, 1110.59045)
-end)
-
-NewButton("МЧС","Телепортирует в МЧС", function()
-    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-1886.40942, 2.7, 297.478699)
-end)
-
-NewButton("Гаражи","Телепортирует в Гаражи", function()
-    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-3253.19141, 7.59, -544.405945)
-end)
-
-NewButton("Разведка Украины","Пасхалка", function()
-    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-2057.31274, -17.41, -272.960266)
-end)
-
-NewButton("Деревня","Телепортирует в Деревню", function()
-    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-2791.89429, 2.27, 2833.02954)
-end)
-
-NewButton("Пятёрочка","Телепортирует в Пятёрочку", function()
-    plr.Character.HumanoidRootPart.CFrame = CFrame.new(-2406.3667, 7.48, 39.0829697)
-end)
-
-NewButton("Изменить скорость машины","Запускает скрипт на скорость", function()
+Tp:NewButton("Скоро будет больше функций!","!Не кнопка а надпись!", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Documantation12/Universal-Vehicle-Script/main/Main.lua"))()
 end)
-
-
--- Взломы
-NewButton("Дюп","(тестовый) Включает быстрый prompt", function()
-    for i,v in pairs(game.Workspace:GetDescendants()) do
-        if v:IsA("ProximityPrompt") then
-            v.Enabled = true
-            v.HoldDuration = 0
-        end
-    end
+local Hacks = Window:NewTab("Телепорты")
+local Hack = Hacks:NewSection("Телепорты")
+Hack:NewButton("Больница", "Телепортирует в больницу", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new (-3394.24463, 5.05000019, 263.195526, -0.173624277, 0, 0.984811902, 0, 1, 0, -0.984811902, 0, -0.173624277)
+end)
+Hack:NewButton("Церковь", "Телепортирует в церковь", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new (-2659.02637, 2.55033565, -739.766541, 0.984812498, 0, 0.173621148, 0, 1, 0, -0.173621148, 0, 0.984812498)
+end)
+Hack:NewButton("Мвд", "Телепортирует в Мвд", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new (-2852.2749, 18.6000004, 1110.59045, 0.173624337, 0, 0.984811902, 0, 1, 0, -0.984811902, 0, 0.173624337)
+end)
+Hack:NewButton("Мчс", "Телепортирует в Мчс", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new (-1886.40942, 2.70004678, 297.478699, 0, 0, 1, 0, 1, -0, -1, 0, 0)
+end)
+Hack:NewButton("Гаражи", "Телепортирует в Гаражи", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new (-3253.19141, 7.5912075, -544.405945, 0.438328028, 0.898815036, -4.10974026e-05, 4.10974026e-05, -6.58035278e-05, -1, -0.898815036, 0.438328028, -6.58035278e-05)
+end)
+Hack:NewButton("Разветка Украины", "Пасхалка", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new (-2057.31274, -17.4150505, -272.960266, -0.573599219, 0, 0.81913656, 0, 1, 0, -0.81913656, 0, -0.573599219)
+end)
+Hack:NewButton("Деревня", "Телепортирует в Деревню", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new (-2791.89429, 2.27600002, 2833.02954, -0.933587909, 0, -0.358349502, 0, 1, 0, 0.358349502, 0, -0.933587909)
+end)
+Hack:NewButton("Пятёрочка", "Телепортирует в Пятёрочку", function()
+    plr.Character.HumanoidRootPart.CFrame = CFrame.new (-2406.3667, 7.48527145, 39.0829697, 0.173615217, 0.984813571, -5.48362732e-06, -5.48362732e-06, 6.55651093e-06, 1, 0.984813571, -0.173615217, 6.55651093e-06)
+end)
+local Creator = Window:NewTab("Создатели")
+local Creators = Creator:NewSection("Создатели")
+Creators:NewButton("Sandak", "Создатель скрипта", function()
+    print("Sandak")
+end)
+Creators:NewButton("чепулых", "Тестинг", function()
+    print("чепулых")
+end)
+Creators:NewButton("Oleg Mongol", "Вдохновление", function()
+    print("Oleg Mongol")
 end)

@@ -60,7 +60,7 @@ setthreadidentity(7)
 --// Sandak Province Hub
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robojini/Tuturial_UI_Library/main/UI_Template_1"))()
 local plr = game.Players.LocalPlayer
-local Window = Library.CreateLib("SANDAK Province | Сандак Хаб v1.2.5","RJTheme5")
+local Window = Library.CreateLib("SANDAK Province | Сандак Хаб v1.3.0","RJTheme5")
 local Teleport = Window:NewTab("Main | Главная")
 local Tp = Teleport:NewSection("Main | Главная")
 Tp:NewButton("Изменить скорость машины | CAR SPEED","Запускает скрипт на скорость", function()
@@ -69,8 +69,8 @@ end)
 Tp:NewButton("Скоро будет больше функций!","!Не кнопка а надпись!", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Documantation12/Universal-Vehicle-Script/main/Main.lua"))()
 end)
-local Hacks = Window:NewTab("Телепорты")
-local Hack = Hacks:NewSection("Телепорты")
+local Hacks = Window:NewTab("Телепорты | Tp")
+local Hack = Hacks:NewSection("Телепорты | Tp")
 Hack:NewButton("Больница", "Телепортирует в больницу", function()
     plr.Character.HumanoidRootPart.CFrame = CFrame.new (-3394.24463, 5.05000019, 263.195526, -0.173624277, 0, 0.984811902, 0, 1, 0, -0.984811902, 0, -0.173624277)
 end)
@@ -110,12 +110,127 @@ end)
 Hack:NewButton("Стройка | Недострой", "Телепортирует на Стройка", function()
     plr.Character.HumanoidRootPart.CFrame = CFrame.new (-2347.92944, 94.7500229, -710.446533, 0.499959469, 0, 0.866048813, 0, 1, 0, -0.866048813, 0, 0.499959469)
 end)
-local Creator = Window:NewTab("Создатели")
-local Creators = Creator:NewSection("Создатели")
-Creators:NewButton("Sandak", "Создатель скрипта", function()
+local Igrok = Window:NewTab("Игрок | Player")
+local Igroks = Igrok:NewSection("Игрок | Player")
+Igroks:NewButton("Изменить скорость | WalkSpeed", "Запускает скрипт на скорость", function()
+    -- Проверяем, нет ли уже GUI
+    local player = game.Players.LocalPlayer
+    if player.PlayerGui:FindFirstChild("WalkSpeedGui") then return end
+
+    -- Основной GUI
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "WalkSpeedGui"
+    ScreenGui.Parent = player:WaitForChild("PlayerGui")
+    ScreenGui.ResetOnSpawn = false
+
+    local Frame = Instance.new("Frame")
+    Frame.Size = UDim2.new(0, 200, 0, 100)
+    Frame.Position = UDim2.new(0.5, -100, 0.5, -50)
+    Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    Frame.Active = true
+    Frame.Draggable = true
+    Frame.Parent = ScreenGui
+
+    local Num = Instance.new("TextBox")
+    Num.Size = UDim2.new(0.6, 0, 0.6, 0)
+    Num.Position = UDim2.new(0.2, 0, 0.3, 0)
+    Num.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Num.TextColor3 = Color3.new(1, 1, 1)
+    Num.TextScaled = true
+    Num.Font = Enum.Font.SourceSans
+    Num.ClearTextOnFocus = true
+    Num.Parent = Frame
+
+    local Plus = Instance.new("TextButton")
+    Plus.Size = UDim2.new(0.2, 0, 0.6, 0)
+    Plus.Position = UDim2.new(0.8, 0, 0.3, 0)
+    Plus.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    Plus.TextColor3 = Color3.new(1, 1, 1)
+    Plus.TextScaled = true
+    Plus.Font = Enum.Font.SourceSans
+    Plus.Text = "+"
+    Plus.Parent = Frame
+
+    local Minus = Instance.new("TextButton")
+    Minus.Size = UDim2.new(0.2, 0, 0.6, 0)
+    Minus.Position = UDim2.new(0, 0, 0.3, 0)
+    Minus.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    Minus.TextColor3 = Color3.new(1, 1, 1)
+    Minus.TextScaled = true
+    Minus.Font = Enum.Font.SourceSans
+    Minus.Text = "-"
+    Minus.Parent = Frame
+
+    local humanoid
+    local number
+    local EditingNum = false
+
+    local function UpdateNum()
+        Num.Text = tostring(number)
+        if humanoid then
+            humanoid.WalkSpeed = number
+        end
+    end
+
+    local function onCharacterAdded(character)
+        humanoid = character:WaitForChild("Humanoid")
+        number = humanoid.WalkSpeed
+        humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
+            if humanoid.WalkSpeed ~= number then
+                humanoid.WalkSpeed = number
+            end
+        end)
+        UpdateNum()
+    end
+
+    player.CharacterAdded:Connect(onCharacterAdded)
+    if player.Character then
+        onCharacterAdded(player.Character)
+    end
+
+    Plus.MouseButton1Click:Connect(function()
+        number = number + 1
+        UpdateNum()
+    end)
+
+    Minus.MouseButton1Click:Connect(function()
+        if number > 0 then
+            number = number - 1
+            UpdateNum()
+        end
+    end)
+
+    Num.Focused:Connect(function()
+        EditingNum = true
+    end)
+
+    Num.FocusLost:Connect(function(enterPressed)
+        EditingNum = false
+        if enterPressed then
+            local Value = tonumber(Num.Text)
+            if Value and Value > 0 then
+                number = Value
+                UpdateNum()
+            else
+                UpdateNum()
+            end
+        end
+    end)
+
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "[Bypass] WalkSpeed Gui",
+        Text = "Made By Sandak",
+        Duration = 12
+    })
+
+    UpdateNum()
+end)
+local Creator = Window:NewTab("Создатели | Creators")
+local Creators = Creator:NewSection("Создатели | Creators")
+Creators:NewButton("Sandak", "Создатель | Owner", function()
     print("Sandak")
 end)
-Creators:NewButton("чепулых", "Тестинг", function()
+Creators:NewButton("чепулых", "Тестер | Tester", function()
     print("чепулых")
 end)
 Creators:NewButton("Oleg Mongol", "Вдохновление", function()
